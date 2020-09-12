@@ -9,7 +9,7 @@ const siteConfig = {
   repoUrl: 'https://github.com/sagifogel/proptics',
   customDocsPath: "docs/target/mdoc",
   projectName: 'proptics',
-  organizationName: 'com.github.sagifogel',
+  organizationName: 'sagifogel',
   headerLinks: [
     {href: apiUrl, label: "API Docs"},
     {href: 'https://github.com/sagifogel/proptics', label: 'GitHub'}
