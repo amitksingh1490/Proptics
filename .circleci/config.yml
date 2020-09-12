@@ -128,9 +128,9 @@ mdoc: &mdoc
           sbt docs/docusaurusCreateSite
           sbt docs/mdoc
           pwd
-          cd website
-          pwd
+          cd website/build
           ls
+          cd ..
           yarn install && USE_SSH=true yarn publish-gh-pages
     - <<: *clean_cache
     - <<: *save_cache
