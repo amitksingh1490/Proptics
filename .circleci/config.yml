@@ -125,6 +125,10 @@ mdoc: &mdoc
           git config --global user.email "${GITHUB_USERNAME}@users.noreply.github.com"
           git config --global user.name "${GITHUB_USERNAME}"
           export GIT_USER=${GITHUB_USERNAME}
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm use 10
+          node -v
           sbt docs/docusaurusCreateSite
           yarn install && USE_SSH=true yarn publish-gh-pages
     - <<: *clean_cache
