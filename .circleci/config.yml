@@ -126,7 +126,7 @@ mdoc: &mdoc
           git config --global user.name "${GITHUB_USERNAME}"
           export GIT_USER=${GITHUB_USERNAME}
           sbt docs/docusaurusCreateSite
-          sbt docs/docusaurusPublishGhpages
+          yarn install && USE_SSH=true yarn publish-gh-pages
     - <<: *clean_cache
     - <<: *save_cache
 
