@@ -127,7 +127,11 @@ mdoc: &mdoc
           export GIT_USER=${GITHUB_USERNAME}
           sbt docs/docusaurusCreateSite
           sbt docs/mdoc
-          cd website && yarn install && USE_SSH=true yarn publish-gh-pages
+          pwd
+          cd website
+          pwd
+          ls
+          yarn install && USE_SSH=true yarn publish-gh-pages
     - <<: *clean_cache
     - <<: *save_cache
 
