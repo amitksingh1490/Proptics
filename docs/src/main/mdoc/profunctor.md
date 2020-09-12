@@ -112,7 +112,7 @@ That is, if you have a context of `F[A] | Eq[String]`, which is a context of typ
 `B | Person` that you can extract an `A | String` out of it, then you can get a context of type `F[B] | Eq[Person]`
 
 ```scala 
-  def contramap[A,      B     ](fa: F[A]     )(f: B       => A     ): F[B]    
+  def contramap[A,      B     ](fa: F[A]      )(f: B      => A     ): F[B]    
   def contramap[String, Person](fa: Eq[String])(f: Person => String): Eq[Person]                      
 ```  
 You can think of the `contramap` function as a consumer of `B`s.
