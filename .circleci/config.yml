@@ -131,7 +131,8 @@ mdoc: &mdoc
           nvm use 10
           node -v
           sbt docs/docusaurusCreateSite
-          yarn install && USE_SSH=true yarn publish-gh-pages
+          sbt docs/mdoc
+          cd website && yarn install && USE_SSH=true yarn publish-gh-pages
     - <<: *clean_cache
     - <<: *save_cache
 
