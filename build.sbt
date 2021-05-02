@@ -28,7 +28,6 @@ lazy val discipline = Def.setting("org.typelevel" %%% "discipline-core" % "1.1.4
 lazy val disciplineScalatest = Def.setting("org.typelevel" %%% "discipline-scalatest" % "2.1.4")
 lazy val scalacheckShapeless = Def.setting("com.github.alexarchambault" %%% "scalacheck-shapeless_1.14" % "1.2.5")
 lazy val kindProjector = "org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full
-lazy val gitRev = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
 addCommandAlias("build", "prepare; testJVM")
 addCommandAlias("prepare", "fix; fmt")
@@ -49,22 +48,6 @@ lazy val noPublishSettings = Seq(
   skip / publish := true
 )
 
-def revisionToUse = Def.task {
-  val tag = (ThisBuild / version).value
-  if (isSnapshot.value) gitRev else tag
-}
-
-lazy val scalajsSettings = Seq(
-  scalacOptions += {
-    lazy val tag = (ThisBuild / version).value
-    val s = if (isSnapshot.value) gitRev else tag
-    val a = (LocalRootProject / baseDirectory).value.toURI.toString
-    val g = "https://raw.githubusercontent.com/sagifogel/Proptics"
-    s"-P:scalajs:mapSourceURI:$a->$g/$s/"
-  },
-  Test / testOptions += Tests.Argument(TestFrameworks.ScalaCheck, "-maxSize", "8", "-minSuccessfulTests", "50")
-)
-
 lazy val propticsSettings = Seq(
   scalaVersion := Scala213,
   crossScalaVersions := Seq(Scala212, Scala213),
@@ -79,12 +62,11 @@ lazy val propticsSettings = Seq(
     _.filterNot(Set("-Xfatal-warnings", "-Xlint", "-Ywarn-unused:imports"))
   },
   Compile / unmanagedSourceDirectories ++= scalaVersionSpecificFolders("main", baseDirectory.value, scalaVersion.value),
-  Test / unmanagedSourceDirectories ++= scalaVersionSpecificFolders("test", baseDirectory.value, scalaVersion.value),
-  scmInfo := Some(ScmInfo(url("https://github.com/sagifogel/Proptics"), "scm:git:git@github.com:sagifogel/Proptics.git"))
+  Test / unmanagedSourceDirectories ++= scalaVersionSpecificFolders("test", baseDirectory.value, scalaVersion.value)
 )
 
 lazy val propticsJVMSettings = propticsSettings ++ Seq(skip / publish := true) ++ Seq(Test / fork := true)
-lazy val propticsJSSettings = propticsSettings ++ scalajsSettings
+lazy val propticsJSSettings = propticsSettings
 
 def priorTo2_13(scalaVersion: String): Boolean =
   CrossVersion.partialVersion(scalaVersion) match {
